@@ -12,3 +12,11 @@ spring:
   sql:
     init:
       platform: postgres
+management:
+  endpoints:
+    web:
+      base-path: /
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
