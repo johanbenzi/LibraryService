@@ -4,9 +4,14 @@ spring:
     username: sqladmin
     password: secret
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 4
+      connection-test-query: SELECT 1
   jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   liquibase:
     change-log: classpath:/db.changelog/dbchangelog.xml
   sql:
