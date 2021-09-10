@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: 'library'
+      POSTGRES_USER: 'sqladmin'
+      POSTGRES_PASSWORD: 'secret'
+    ports:
+      - 5432:5432
