@@ -20,7 +20,7 @@ Feature: Books can be loaned from and returned to library by users
       | Book A | John Doe |
       | Book B | John Doe |
     When The book is attempted to be loaned
-    Then A response code 200 is obtained
+    Then A response code of 200 is obtained
     And The books are provided
       | Title  | Author   | Categories      |
       | Book A | John Doe | Fiction         |
@@ -29,17 +29,17 @@ Feature: Books can be loaned from and returned to library by users
       | Title  | Author   |
       | Book A | John Doe |
     When The book is attempted to be loaned
-    Then A response code 409 is obtained
+    Then A response code of 409 is obtained
     Given Books and Authors
       | Title  | Author   |
       | Book E | Jane Doe |
     When The book is attempted to be loaned
-    Then A response code 404 is obtained
+    Then A response code of 404 is obtained
     Given Books and Authors
       | Title  | Author   |
       | Book C | John Doe |
     When The book is attempted to be loaned
-    Then A response code 200 is obtained
+    Then A response code of 200 is obtained
     And The books are provided
       | Title  | Author   | Categories      |
       | Book C | John Doe | Fiction, Travel |
@@ -47,7 +47,7 @@ Feature: Books can be loaned from and returned to library by users
       | Title  | Author   |
       | Book D | John Doe |
     When The book is attempted to be loaned
-    Then A response code 422 is obtained
+    Then A response code of 422 is obtained
 
 
   Scenario: Return loaned books
@@ -62,9 +62,9 @@ Feature: Books can be loaned from and returned to library by users
       | Title  | Author   |
       | Book A | John Doe |
     When The book is attempted to be returned
-    Then A response code 200 is obtained
+    Then A response code of 200 is obtained
     Given Books and Authors
       | Title  | Author   |
       | Book D | Jane Doe |
     When The book is attempted to be returned
-    Then A response code 422 is obtained
+    Then A response code of 422 is obtained

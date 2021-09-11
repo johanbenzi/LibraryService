@@ -12,7 +12,7 @@ Feature: Books can be added to and removed from library
     And An author <Author>
     And Categories <Categories>
     When The book is attempted to be saved
-    Then A response code <ResponseCode> is obtained
+    Then A response code of <ResponseCode> is obtained
 
     Examples:
       | Title  | Author   | Categories     | ResponseCode |
@@ -25,14 +25,14 @@ Feature: Books can be added to and removed from library
     And Categories
       | Fiction |
     When The book is attempted to be saved
-    Then A response code 201 is obtained
+    Then A response code of 201 is obtained
     Given A title Book A
     And An author John Doe
     And Categories
       | Fiction   |
       | Adventure |
     When The book is attempted to be saved
-    Then A response code 409 is obtained
+    Then A response code of 409 is obtained
 
   Scenario: An existing book can be deleted
     Given A title Book A
@@ -40,8 +40,9 @@ Feature: Books can be added to and removed from library
     And Categories
       | Fiction |
     When The book is attempted to be saved
-    Then A response code 201 is obtained
-    When The book id 1 is attempted to be deleted
-    Then A response code 204 is obtained
-    When The book id 1 is attempted to be deleted
-    Then A response code 404 is obtained
+    Then A response code of 201 is obtained
+    And An ID is returned
+    When The book is attempted to be deleted
+    Then A response code of 204 is obtained
+    When The book is attempted to be deleted
+    Then A response code of 404 is obtained
