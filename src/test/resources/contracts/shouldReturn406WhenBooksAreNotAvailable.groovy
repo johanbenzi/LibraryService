@@ -4,7 +4,7 @@ Contract.make {
     description "Should loan upto 3 books if available"
     request {
         method POST()
-        url "/user/1/books"
+        url "/library/user/1/books"
         headers {
             accept(applicationJson())
             contentType(applicationJson())

@@ -4,7 +4,7 @@ Contract.make {
     description "Should create a new book entry"
     request {
         method PUT()
-        url "/book"
+        url "/library/book"
         headers {
             accept(applicationJson())
             contentType(applicationJson())

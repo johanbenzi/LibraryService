@@ -4,7 +4,7 @@ Contract.make {
     description "Should return a 409 when attempting to create a book which already exists"
     request {
         method PUT()
-        url "/book"
+        url "/library/book"
         headers {
             accept(applicationJson())
             contentType(applicationJson())
