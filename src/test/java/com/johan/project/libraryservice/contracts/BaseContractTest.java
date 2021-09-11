@@ -1,5 +1,7 @@
 package com.johan.project.libraryservice.contracts;
 
+import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
+import com.johan.project.libraryservice.service.CategoryService;
 import io.restassured.config.EncoderConfig;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.config.RestAssuredMockMvcConfig;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -16,6 +19,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -34,6 +39,9 @@ public class BaseContractTest {
     @Autowired
     private WebApplicationContext context;
 
+    @MockBean
+    private CategoryService categoryService;
+
     @BeforeAll
     static void init() {
         System.setProperty("DB_HOST", postgresqlContainer.getContainerIpAddress());
@@ -45,5 +53,8 @@ public class BaseContractTest {
         final EncoderConfig encoderConfig = new EncoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false);
         RestAssuredMockMvc.config = new RestAssuredMockMvcConfig().encoderConfig(encoderConfig);
         RestAssuredMockMvc.webAppContextSetup(this.context);
+
+        when(categoryService.createCategory("Category A")).thenReturn(1L);
+        when(categoryService.createCategory("Category B")).thenThrow(new DuplicateCategoryException("Category already exists"));
     }
 }
