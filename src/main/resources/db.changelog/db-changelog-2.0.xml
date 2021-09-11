@@ -6,7 +6,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="1" author="johanbenzi" failOnError="true">
-        <sqlFile path="sql/user-table.sql" splitStatements="true" relativeToChangelogFile="true"
+        <sqlFile path="sql/db.schema_v2.sql" splitStatements="true" relativeToChangelogFile="true"
                  stripComments="true"/>
     </changeSet>
 

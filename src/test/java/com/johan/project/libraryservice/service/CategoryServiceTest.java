@@ -1,6 +1,8 @@
 package com.johan.project.libraryservice.service;
 
+import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
 import com.johan.project.libraryservice.repository.CategoriesRepository;
+import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,12 +32,24 @@ class CategoryServiceTest {
 
     @Test
     void createCategory() {
-        when(categoriesRepository.createCategory(CATEGORY)).thenReturn(CATEGORY_ID);
+        when(categoriesRepository.findAll()).thenReturn(new ArrayList<>());
+        when(categoriesRepository.save(CategoriesEntity.builder().category(CATEGORY).build())).thenReturn(CategoriesEntity.builder().id(CATEGORY_ID).build());
 
         final Long categoryId = cut.createCategory(CATEGORY);
 
         Assertions.assertEquals(CATEGORY_ID, categoryId);
-        verify(categoriesRepository, times(1)).createCategory(anyString());
+        verify(categoriesRepository, times(1)).save(any(CategoriesEntity.class));
+        verify(categoriesRepository, times(1)).findAll();
+        verifyNoMoreInteractions(categoriesRepository);
+    }
+
+    @Test
+    void createCategory_duplicateCategory() {
+        when(categoriesRepository.findAll()).thenReturn(Collections.singletonList(CategoriesEntity.builder().category(CATEGORY.toLowerCase()).build()));
+
+        Assertions.assertThrows(DuplicateCategoryException.class, () -> cut.createCategory(CATEGORY));
+
+        verify(categoriesRepository, times(1)).findAll();
         verifyNoMoreInteractions(categoriesRepository);
     }
 }

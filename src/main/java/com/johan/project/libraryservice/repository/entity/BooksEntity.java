@@ -34,7 +34,7 @@ public class BooksEntity {
     @Column(name = "IS_LOANED", nullable = false)
     private boolean isLoaned;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "books", cascade = CascadeType.ALL)
     private Set<CategoriesEntity> categories;
 
     @ManyToOne(fetch = FetchType.LAZY)

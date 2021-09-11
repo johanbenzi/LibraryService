@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -29,8 +30,11 @@ public class CategoriesEntity {
     @Column(name = "CATEGORY", nullable = false)
     private String category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<BooksEntity> books;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private final Set<BooksEntity> books = new HashSet<>();
 
     @CreatedDate
     @Column(name = "CREATED_DATE_TIME", nullable = false, updatable = false)
