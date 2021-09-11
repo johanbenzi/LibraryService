@@ -17,5 +17,6 @@ Contract.make {
     }
     response {
         status 409
+        body("Book already exists")
     }
 }
