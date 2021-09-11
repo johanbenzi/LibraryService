@@ -1,29 +1,34 @@
 package com.johan.project.libraryservice.bdd.steps;
 
+import com.johan.project.libraryservice.bdd.steps.api.LibraryAPISteps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.thucydides.core.annotations.Steps;
 
 import java.util.List;
 
 public class LibrarySteps {
 
+    @Steps
+    private LibraryAPISteps steps;
+
     @Given("A category {word}")
     public void saveCategory(final String category) {
-        throw new PendingException();
+        steps.saveCategory(category);
     }
 
     @When("The category is saved")
     public void saveCategoryToLibrary() {
-        throw new PendingException();
+        steps.saveCategoryToLibrary();
     }
 
     @Then("A response code of {int} is obtained")
     public void assertResponseCode(final int responseCode) {
-        throw new PendingException();
+        steps.assertResponseCode(responseCode);
     }
 
     @And("An ID is returned")
