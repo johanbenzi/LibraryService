@@ -175,6 +175,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <testFramework>JUNIT5</testFramework>
+                    <baseClassForTests>com.johan.project.libraryservice.contracts.BaseContractTest</baseClassForTests>
                 </configuration>
             </plugin>
             <plugin>
