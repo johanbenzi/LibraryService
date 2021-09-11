@@ -1,6 +1,8 @@
 package com.johan.project.libraryservice.repository.entity;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,21 +17,17 @@ import java.util.Set;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "CATEGORIES")
-@Entity(name = "CATEGORIES")
+@Table(name = "USERS")
+@Entity(name = "USERS")
 @EntityListeners(AuditingEntityListener.class)
-public class CategoriesEntity {
+public class UsersEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CategoriesSeq")
-    @SequenceGenerator(name = "CategoriesSeq", sequenceName = "CATEGORIES_SEQ", allocationSize = 1)
-    @Column(name = "ID", unique = true, nullable = false)
-    private Long id;
+    @Column(name = "USER_ID", unique = true, nullable = false)
+    private Long userId;
 
-    @Column(name = "CATEGORY", nullable = false)
-    private String category;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.EXTRA)
     private Set<BooksEntity> books;
 
     @CreatedDate
