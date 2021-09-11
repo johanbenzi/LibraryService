@@ -5,6 +5,10 @@ Contract.make {
     request {
         method PUT()
         url "/library/category"
+        headers {
+            accept(applicationJson())
+            contentType(applicationJson())
+        }
         body("Category A")
     }
     response {
