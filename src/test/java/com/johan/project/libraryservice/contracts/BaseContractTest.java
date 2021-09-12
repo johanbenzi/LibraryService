@@ -7,6 +7,7 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.config.RestAssuredMockMvcConfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles(value = "local")
 @DirtiesContext
 @Testcontainers
+@Disabled
 public class BaseContractTest {
 
     @Container
