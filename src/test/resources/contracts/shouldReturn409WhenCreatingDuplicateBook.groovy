@@ -12,7 +12,7 @@ Contract.make {
         body(
                 title: "The other awesome book",
                 author: "John Doe",
-                categories: [anyPositiveInt()]
+                categories: [2L]
         )
     }
     response {

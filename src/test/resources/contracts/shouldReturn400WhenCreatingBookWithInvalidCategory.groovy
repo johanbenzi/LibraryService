@@ -10,12 +10,13 @@ Contract.make {
             contentType(applicationJson())
         }
         body(
-                title: anyNonBlankString(),
-                author: anyNonBlankString(),
-                categories: [99, anyPositiveInt()]
+                title: "Great Book",
+                author: "Jane Doe",
+                categories: [99]
         )
     }
     response {
         status 400
+        body("Category doesn't exist")
     }
 }
