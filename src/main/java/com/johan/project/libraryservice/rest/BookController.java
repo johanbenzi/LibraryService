@@ -34,8 +34,7 @@ public class BookController {
         Preconditions.checkArgument(StringUtils.isNotBlank(bookRequest.getTitle()), "Title cannot be blank");
         Preconditions.checkArgument(StringUtils.isNotBlank(bookRequest.getAuthor()), "Author cannot be blank");
         Preconditions.checkArgument(Objects.nonNull(bookRequest.getCategories()) && !bookRequest.getCategories().isEmpty(),
-                "Title cannot be blank");
-        
+                "Categories cannot be empty");
         return bookService.createBook(bookRequest);
     }
 }

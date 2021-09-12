@@ -98,6 +98,7 @@ public class CommonAPISteps {
         SerenityRest.given()
                 .when()
                 .body(aBookRequestFromSession())
+                .contentType("application/json")
                 .put(libraryServiceUrl + "/library/book");
     }
 

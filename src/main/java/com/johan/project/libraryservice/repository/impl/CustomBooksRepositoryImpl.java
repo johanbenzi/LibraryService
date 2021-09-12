@@ -6,6 +6,7 @@ import com.johan.project.libraryservice.repository.entity.BooksEntity;
 import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
 import com.johan.project.libraryservice.rest.request.BookRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +21,7 @@ public class CustomBooksRepositoryImpl implements CustomBooksRepository {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Long createBook(final BookRequest bookRequest) {
         final Set<CategoriesEntity> categoriesEntities = bookRequest.getCategories().stream()
                 .map(x -> entityManager.find(CategoriesEntity.class, x)).collect(Collectors.toSet());
