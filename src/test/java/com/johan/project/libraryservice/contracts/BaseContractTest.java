@@ -1,5 +1,6 @@
 package com.johan.project.libraryservice.contracts;
 
+import com.johan.project.libraryservice.exceptions.BookNotFoundException;
 import com.johan.project.libraryservice.exceptions.DuplicateBookException;
 import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
 import com.johan.project.libraryservice.rest.request.BookRequest;
@@ -26,6 +27,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Set;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -70,5 +72,8 @@ public class BaseContractTest {
         when(bookService.createBook(BookRequest.of("Awesome book", "John Doe", Set.of(1L)))).thenReturn(1L);
         when(bookService.createBook(BookRequest.of("The other awesome book", "John Doe", Set.of(2L)))).thenThrow(new DuplicateBookException("Book already exists"));
         when(bookService.createBook(BookRequest.of("Great Book", "Jane Doe", Set.of(99L)))).thenThrow(new DuplicateBookException("Category doesn't exist"));
+
+        doThrow(new BookNotFoundException("Book doesn't exist"))
+                .when(bookService).deleteBook(2L);
     }
 }
