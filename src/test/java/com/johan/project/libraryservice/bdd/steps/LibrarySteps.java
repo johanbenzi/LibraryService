@@ -2,6 +2,7 @@ package com.johan.project.libraryservice.bdd.steps;
 
 import com.johan.project.libraryservice.bdd.steps.api.LibraryAPISteps;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -9,9 +10,15 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.Steps;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class LibrarySteps {
+
+    @After
+    public void afterScenario() {
+        steps.afterScenario();
+    }
 
     @Steps
     private LibraryAPISteps steps;
@@ -33,33 +40,37 @@ public class LibrarySteps {
 
     @And("An ID is returned")
     public void assertNonNullResponse() {
-        throw new PendingException();
+        steps.assertNonNullResponse();
     }
 
     @Given("Existing categories")
     public void existingCategories(final List<String> categories) {
-        throw new PendingException();
+        steps.existingCategories(categories);
     }
 
     @Given("^A title (.*)$")
     public void saveTitle(final String title) {
-        throw new PendingException();
+        steps.saveTitle(title);
     }
 
     @And("^An author (.*)$")
     public void saveAuthor(final String author) {
-        throw new PendingException();
+        steps.saveAuthor(author);
     }
 
     @And("^Categories (.*)$")
+    public void saveCategoriesDelimited(final String categories) {
+        steps.saveCategories(Arrays.asList(categories.trim().split("\\s*,\\s*")));
+    }
+    
     @And("Categories")
     public void saveCategories(final List<String> categories) {
-        throw new PendingException();
+        steps.saveCategories(categories);
     }
 
     @When("The book is attempted to be saved")
     public void saveBookToLibrary() {
-        throw new PendingException();
+        steps.saveBookToLibrary();
     }
 
     @When("The book is attempted to be deleted")

@@ -15,9 +15,9 @@ Feature: Books can be added to and removed from library
     Then A response code of <ResponseCode> is obtained
 
     Examples:
-      | Title  | Author   | Categories     | ResponseCode |
-      | Book A | John Doe | Fiction        | 201          |
-      | Book B | John Doe | Fiction, Drama | 400          |
+      | Title  | Author   | Categories      | ResponseCode |
+      | Book A | John Doe | Fiction, Travel | 201          |
+      | Book B | John Doe | Fiction, Drama  | 400          |
 
   Scenario: A duplicate book with the same name and author cannot be added
     Given A title Book A
