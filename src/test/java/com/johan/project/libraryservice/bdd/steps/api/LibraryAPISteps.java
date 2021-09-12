@@ -60,4 +60,10 @@ public class LibraryAPISteps {
     public void saveBookToLibrary() {
         commonAPISteps.saveBookToLibrary();
     }
+
+    @Step("Delete book from library")
+    public void deleteBookFromLibrary() {
+        commonAPISteps.deleteBookFromLibrary();
+    }
+
 }

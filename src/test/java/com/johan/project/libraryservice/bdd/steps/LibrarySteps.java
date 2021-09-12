@@ -62,7 +62,7 @@ public class LibrarySteps {
     public void saveCategoriesDelimited(final String categories) {
         steps.saveCategories(Arrays.asList(categories.trim().split("\\s*,\\s*")));
     }
-    
+
     @And("Categories")
     public void saveCategories(final List<String> categories) {
         steps.saveCategories(categories);
@@ -75,7 +75,7 @@ public class LibrarySteps {
 
     @When("The book is attempted to be deleted")
     public void deleteBookFromLibrary() {
-        throw new PendingException();
+        steps.deleteBookFromLibrary();
     }
 
     @And("Existing Books")

@@ -72,6 +72,7 @@ public class CommonAPISteps {
     }
 
     public void assertNonNullResponse() {
+        Serenity.getCurrentSession().put("ResponseID", SerenityRest.then().extract().response().body().as(Long.class));
         assertThat(SerenityRest.then().extract().response().body().as(Long.class), notNullValue());
     }
 
@@ -100,6 +101,13 @@ public class CommonAPISteps {
                 .body(aBookRequestFromSession())
                 .contentType("application/json")
                 .put(libraryServiceUrl + "/library/book");
+    }
+
+    public void deleteBookFromLibrary() {
+        setLibraryServiceUrl();
+        SerenityRest.given()
+                .when()
+                .delete(libraryServiceUrl + "/library/book/" + Serenity.getCurrentSession().get("ResponseID"));
     }
 
     private void setLibraryServiceUrl() {
