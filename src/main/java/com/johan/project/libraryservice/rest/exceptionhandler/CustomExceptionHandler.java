@@ -1,5 +1,6 @@
 package com.johan.project.libraryservice.rest.exceptionhandler;
 
+import com.johan.project.libraryservice.exceptions.BookNotFoundException;
 import com.johan.project.libraryservice.exceptions.DuplicateBookException;
 import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
 import com.johan.project.libraryservice.exceptions.UnrecognisedCategoryException;
@@ -35,6 +36,12 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handle(final UnrecognisedCategoryException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(final BookNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler

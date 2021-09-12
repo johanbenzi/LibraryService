@@ -1,5 +1,6 @@
 package com.johan.project.libraryservice.service;
 
+import com.johan.project.libraryservice.exceptions.BookNotFoundException;
 import com.johan.project.libraryservice.exceptions.DuplicateBookException;
 import com.johan.project.libraryservice.repository.BooksRepository;
 import com.johan.project.libraryservice.rest.request.BookRequest;
@@ -17,7 +18,11 @@ public class BookService {
                 && x.getAuthor().equalsIgnoreCase(bookRequest.getAuthor()))) {
             throw new DuplicateBookException("Book Already Exists");
         }
-
         return booksRepository.createBook(bookRequest);
+    }
+
+    public void deleteBook(final Long bookId) {
+        final var booksEntity = booksRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book doesn't exist"));
+        booksRepository.delete(booksEntity);
     }
 }

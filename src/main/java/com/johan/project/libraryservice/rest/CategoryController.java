@@ -25,7 +25,7 @@ public class CategoryController {
     @PutMapping(path = "/category")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a category")
-    @ApiResponse(responseCode = "200", description = "Success. Category created", content = {
+    @ApiResponse(responseCode = "201", description = "Success. Category created", content = {
             @Content(examples = {@ExampleObject(value = "123")})})
     @ApiResponse(responseCode = "400", description = "Error in creating category, bad data found", content = @Content)
     @ApiResponse(responseCode = "409", description = "Category already exists", content = @Content)
