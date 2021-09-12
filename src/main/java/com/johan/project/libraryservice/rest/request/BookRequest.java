@@ -10,5 +10,5 @@ public class BookRequest {
 
     String author;
 
-    Set<Long> categoryIds;
+    Set<Long> categories;
 }
