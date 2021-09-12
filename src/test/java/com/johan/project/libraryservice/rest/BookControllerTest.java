@@ -16,8 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookController Unit Tests")
@@ -86,6 +85,21 @@ class BookControllerTest {
         bookRequest = BookRequest.of("That Book", "John Doe", new HashSet<>());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> cut.createBook(bookRequest));
+
+        verifyNoInteractions(bookService);
+    }
+
+    @Test
+    void deleteBook() {
+        cut.deleteBook(BOOK_ID);
+
+        verify(bookService, times(1)).deleteBook(BOOK_ID);
+        verifyNoMoreInteractions(bookService);
+    }
+
+    @Test
+    void deleteBook_nullBookId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cut.deleteBook(null));
 
         verifyNoInteractions(bookService);
     }

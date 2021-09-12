@@ -1,5 +1,6 @@
 package com.johan.project.libraryservice.service;
 
+import com.johan.project.libraryservice.exceptions.BookNotFoundException;
 import com.johan.project.libraryservice.exceptions.DuplicateBookException;
 import com.johan.project.libraryservice.repository.BooksRepository;
 import com.johan.project.libraryservice.repository.entity.BooksEntity;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,12 +39,12 @@ class BookServiceTest {
     @Test
     void createBook() {
         when(booksRepository.findAll()).thenReturn(Collections.emptyList());
-        when(booksRepository.save(BooksEntity.builder().title(TITLE).author(AUTHOR).build())).thenReturn(BooksEntity.builder().id(BOOK_ID).build());
+        when(booksRepository.createBook(BookRequest.of(TITLE, AUTHOR, Set.of(1L, 2L)))).thenReturn(BOOK_ID);
 
         final Long bookId = cut.createBook(BookRequest.of(TITLE, AUTHOR, Set.of(1L, 2L)));
 
         Assertions.assertEquals(BOOK_ID, bookId);
-        verify(booksRepository, times(1)).save(any(BooksEntity.class));
+        verify(booksRepository, times(1)).createBook(any(BookRequest.class));
         verify(booksRepository, times(1)).findAll();
         verifyNoMoreInteractions(booksRepository);
     }
@@ -54,6 +56,27 @@ class BookServiceTest {
         Assertions.assertThrows(DuplicateBookException.class, () -> cut.createBook(BookRequest.of(TITLE, AUTHOR, Set.of(1L, 2L))));
 
         verify(booksRepository, times(1)).findAll();
+        verifyNoMoreInteractions(booksRepository);
+    }
+
+    @Test
+    void deleteBook() {
+        when(booksRepository.findById(BOOK_ID)).thenReturn(Optional.of(BooksEntity.builder().build()));
+
+        cut.deleteBook(BOOK_ID);
+
+        verify(booksRepository, times(1)).findById(BOOK_ID);
+        verify(booksRepository, times(1)).delete(any(BooksEntity.class));
+        verifyNoMoreInteractions(booksRepository);
+    }
+
+    @Test
+    void deleteBook_bookDoesntExist() {
+        when(booksRepository.findById(BOOK_ID)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(BookNotFoundException.class, () -> cut.deleteBook(BOOK_ID));
+
+        verify(booksRepository, times(1)).findById(BOOK_ID);
         verifyNoMoreInteractions(booksRepository);
     }
 }

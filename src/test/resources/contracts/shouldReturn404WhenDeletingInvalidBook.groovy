@@ -8,5 +8,6 @@ Contract.make {
     }
     response {
         status 404
+        body("Book doesn't exist")
     }
 }
