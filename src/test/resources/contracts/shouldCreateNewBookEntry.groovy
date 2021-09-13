@@ -11,8 +11,8 @@ Contract.make {
         }
         body(
                 title: "Awesome book",
-                author: anyNonBlankString(),
-                categories: [anyPositiveInt()]
+                author: $(producer("John Doe"), consumer(anyNonBlankString())),
+                categories: [1]
         )
     }
     response {

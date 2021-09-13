@@ -9,25 +9,13 @@ Contract.make {
             accept(applicationJson())
             contentType(applicationJson())
         }
-        body([1, 2, 3])
+        body([1])
     }
     response {
         status 200
         body([
                 [
                         id        : 1,
-                        title     : anyNonBlankString(),
-                        author    : anyNonBlankString(),
-                        categories: [anyNonBlankString()]
-                ],
-                [
-                        id        : 2,
-                        title     : anyNonBlankString(),
-                        author    : anyNonBlankString(),
-                        categories: [anyNonBlankString()]
-                ],
-                [
-                        id        : 3,
                         title     : anyNonBlankString(),
                         author    : anyNonBlankString(),
                         categories: [anyNonBlankString()]

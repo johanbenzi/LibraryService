@@ -1,18 +1,18 @@
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description "Should loan upto 3 books if available"
+    description "Should create a new category"
     request {
-        method POST()
-        url "/library/user/1/books"
+        method PUT()
+        url "/library/category"
         headers {
             accept(applicationJson())
             contentType(applicationJson())
         }
-        body([4])
+        body("Category A")
     }
     response {
-        status 406
-        body("Book 4 is not available")
+        status 201
+        body(anyPositiveInt())
     }
 }

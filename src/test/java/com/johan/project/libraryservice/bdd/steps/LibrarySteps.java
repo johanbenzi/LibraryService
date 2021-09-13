@@ -1,94 +1,110 @@
 package com.johan.project.libraryservice.bdd.steps;
 
+import com.johan.project.libraryservice.bdd.steps.api.LibraryAPISteps;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.PendingException;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.thucydides.core.annotations.Steps;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LibrarySteps {
 
+    @After
+    public void afterScenario() {
+        steps.afterScenario();
+    }
+
+    @Steps
+    private LibraryAPISteps steps;
+
     @Given("A category {word}")
     public void saveCategory(final String category) {
-        throw new PendingException();
+        steps.saveCategory(category);
     }
 
     @When("The category is saved")
     public void saveCategoryToLibrary() {
-        throw new PendingException();
+        steps.saveCategoryToLibrary();
     }
 
     @Then("A response code of {int} is obtained")
     public void assertResponseCode(final int responseCode) {
-        throw new PendingException();
+        steps.assertResponseCode(responseCode);
     }
 
     @And("An ID is returned")
     public void assertNonNullResponse() {
-        throw new PendingException();
+        steps.assertNonNullResponse();
     }
 
     @Given("Existing categories")
     public void existingCategories(final List<String> categories) {
-        throw new PendingException();
+        steps.existingCategories(categories);
     }
 
     @Given("^A title (.*)$")
     public void saveTitle(final String title) {
-        throw new PendingException();
+        steps.saveTitle(title);
     }
 
     @And("^An author (.*)$")
     public void saveAuthor(final String author) {
-        throw new PendingException();
+        steps.saveAuthor(author);
     }
 
     @And("^Categories (.*)$")
+    public void saveCategoriesDelimited(final String categories) {
+        steps.saveCategories(Arrays.asList(categories.trim().split("\\s*,\\s*")));
+    }
+
     @And("Categories")
     public void saveCategories(final List<String> categories) {
-        throw new PendingException();
+        steps.saveCategories(categories);
     }
 
     @When("The book is attempted to be saved")
     public void saveBookToLibrary() {
-        throw new PendingException();
+        steps.saveBookToLibrary();
     }
 
     @When("The book is attempted to be deleted")
     public void deleteBookFromLibrary() {
-        throw new PendingException();
+        steps.deleteBookFromLibrary();
     }
 
     @And("Existing Books")
-    public void existingBooks() {
-        throw new PendingException();
+    public void existingBooks(final DataTable books) {
+        steps.existingBooks(books.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @Given("A user with id {int}")
     public void saveUserId(final int userId) {
-        throw new PendingException();
+        steps.saveUserId(userId);
     }
 
     @And("Books and Authors")
     public void saveBooksAndAuthor(final DataTable booksAndAuthors) {
-        throw new PendingException();
+        steps.saveBooksAndAuthor(booksAndAuthors.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @When("The book is attempted to be loaned")
     public void loanBooksFromLibrary() {
-        throw new PendingException();
+        steps.loanBooksFromLibrary();
     }
 
     @And("The books are provided")
     public void assertBooks(final DataTable books) {
-        throw new PendingException();
+        steps.assertBooks(books.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @When("The book is attempted to be returned")
     public void returnBooksToLibrary() {
-        throw new PendingException();
+        steps.returnBooksToLibrary();
     }
 }

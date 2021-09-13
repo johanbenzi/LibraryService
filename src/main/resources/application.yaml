@@ -25,3 +25,13 @@ management:
     health:
       show-details: always
       show-components: always
+
+#spring.jpa.properties.hibernate.show_sql: true
+#spring.jpa.properties.hibernate.use_sql_comments: true
+#spring.jpa.properties.hibernate.format_sql: true
+#
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace

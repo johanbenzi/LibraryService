@@ -1,0 +1,4 @@
+#@data/values
+---
+environment: prod
+scale: 2
