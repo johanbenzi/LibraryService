@@ -5,7 +5,7 @@ import com.johan.project.libraryservice.LibraryServiceApplication;
 import com.johan.project.libraryservice.repository.BooksRepository;
 import com.johan.project.libraryservice.repository.CategoriesRepository;
 import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
-import com.johan.project.libraryservice.rest.request.BookRequest;
+import com.johan.project.libraryservice.model.request.BookRequest;
 import io.cucumber.java.After;
 import lombok.extern.log4j.Log4j2;
 import net.serenitybdd.core.Serenity;

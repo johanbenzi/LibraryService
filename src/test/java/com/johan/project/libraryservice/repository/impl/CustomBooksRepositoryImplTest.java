@@ -1,9 +1,10 @@
 package com.johan.project.libraryservice.repository.impl;
 
 import com.johan.project.libraryservice.exceptions.UnrecognisedCategoryException;
+import com.johan.project.libraryservice.model.request.BookRequest;
 import com.johan.project.libraryservice.repository.entity.BooksEntity;
 import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
-import com.johan.project.libraryservice.rest.request.BookRequest;
+import com.johan.project.libraryservice.repository.entity.UsersEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,6 +57,24 @@ class CustomBooksRepositoryImplTest {
         verify(entityManager, times(categories.size())).find(eq(CategoriesEntity.class), any(Long.class));
         verify(entityManager, times(0)).persist(any(BooksEntity.class));
         verify(entityManager, times(0)).flush();
+        verifyNoMoreInteractions(entityManager);
+    }
+
+    @Test
+    void loanBooksToUser() {
+        cut.loanBooksToUser(UsersEntity.builder().build(), Set.of(BooksEntity.builder().id(1L).build(), BooksEntity.builder().id(2L).build()));
+
+        verify(entityManager, times(2)).merge(any(BooksEntity.class));
+        verify(entityManager, times(1)).flush();
+        verifyNoMoreInteractions(entityManager);
+    }
+
+    @Test
+    void returnBooksFromUser() {
+        cut.returnBooksFromUser(Set.of(BooksEntity.builder().id(1L).build(), BooksEntity.builder().id(2L).build()));
+
+        verify(entityManager, times(2)).merge(any(BooksEntity.class));
+        verify(entityManager, times(1)).flush();
         verifyNoMoreInteractions(entityManager);
     }
 }
