@@ -1,7 +1,7 @@
 package com.johan.project.libraryservice.exceptions;
 
-public class NoEntriesForUserException extends RuntimeException {
-    public NoEntriesForUserException(final String message) {
+public class BooksNotLoanedByUserException extends RuntimeException {
+    public BooksNotLoanedByUserException(final String message) {
         super(message);
     }
 }

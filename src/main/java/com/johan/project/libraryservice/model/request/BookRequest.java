@@ -1,4 +1,4 @@
-package com.johan.project.libraryservice.rest.request;
+package com.johan.project.libraryservice.model.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;

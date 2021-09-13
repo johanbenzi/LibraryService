@@ -1,9 +1,6 @@
 package com.johan.project.libraryservice.rest.exceptionhandler;
 
-import com.johan.project.libraryservice.exceptions.BookNotFoundException;
-import com.johan.project.libraryservice.exceptions.DuplicateBookException;
-import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
-import com.johan.project.libraryservice.exceptions.UnrecognisedCategoryException;
+import com.johan.project.libraryservice.exceptions.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +39,30 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handle(final BookNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(final BooksNotLoanedByUserException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(final LoanAttemptNotWithinLimitException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(final NoEntriesForUserException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(final RequestedBooksNotAvailableException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

@@ -1,7 +1,7 @@
 package com.johan.project.libraryservice.exceptions;
 
-public class IsLoanAttemptWithinLimit extends RuntimeException {
-    public IsLoanAttemptWithinLimit(final String message) {
+public class LoanAttemptNotWithinLimitException extends RuntimeException {
+    public LoanAttemptNotWithinLimitException(final String message) {
         super(message);
     }
 }

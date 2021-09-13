@@ -1,11 +1,13 @@
 package com.johan.project.libraryservice.repository.impl;
 
 import com.johan.project.libraryservice.exceptions.UnrecognisedCategoryException;
+import com.johan.project.libraryservice.model.request.BookRequest;
 import com.johan.project.libraryservice.repository.CustomBooksRepository;
 import com.johan.project.libraryservice.repository.entity.BooksEntity;
 import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
-import com.johan.project.libraryservice.rest.request.BookRequest;
+import com.johan.project.libraryservice.repository.entity.UsersEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -15,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Repository
 public class CustomBooksRepositoryImpl implements CustomBooksRepository {
 
     @PersistenceContext
@@ -39,6 +42,27 @@ public class CustomBooksRepositoryImpl implements CustomBooksRepository {
         entityManager.persist(booksEntity);
         entityManager.flush();
         return booksEntity.getId();
+    }
 
+    @Override
+    public Set<BooksEntity> loanBooksToUser(final UsersEntity usersEntity, final Set<BooksEntity> booksThatCanBeLoaned) {
+        booksThatCanBeLoaned.forEach(book -> {
+            book.setLoaned(true);
+            book.setUser(usersEntity);
+            entityManager.merge(book);
+        });
+        entityManager.flush();
+        return booksThatCanBeLoaned;
+    }
+
+    @Override
+    @Transactional
+    public void returnBooksFromUser(final Set<BooksEntity> booksToBeReturned) {
+        booksToBeReturned.forEach(book -> {
+            book.setLoaned(false);
+            book.setUser(null);
+            entityManager.merge(book);
+        });
+        entityManager.flush();
     }
 }

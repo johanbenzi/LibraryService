@@ -1,3 +1,4 @@
 #@data/values
 ---
-environment: develop
+environment: prod
+scale: 2

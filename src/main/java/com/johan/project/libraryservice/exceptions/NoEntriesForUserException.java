@@ -1,7 +1,7 @@
 package com.johan.project.libraryservice.exceptions;
 
-public class BookNotFoundException extends RuntimeException {
-    public BookNotFoundException(final String message) {
+public class NoEntriesForUserException extends RuntimeException {
+    public NoEntriesForUserException(final String message) {
         super(message);
     }
 }

@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+
 @Aspect
 @Component
 @Log4j2
@@ -28,7 +29,7 @@ public class RestInvocationTrackingAspect {
         }
     }
 
-    @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
+    @Pointcut("within(@com.johan.project.libraryservice.rest.LibraryBaseController *)")
     public void controller() {
     }
 

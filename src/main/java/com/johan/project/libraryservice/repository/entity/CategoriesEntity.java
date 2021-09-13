@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
+@Setter
 @Builder
 @ToString
 @EqualsAndHashCode
@@ -30,11 +31,11 @@ public class CategoriesEntity {
     @Column(name = "CATEGORY", nullable = false)
     private String category;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "categories")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Builder.Default
-    private final Set<BooksEntity> books = new HashSet<>();
+    private Set<BooksEntity> books = new HashSet<>();
 
     @CreatedDate
     @Column(name = "CREATED_DATE_TIME", nullable = false, updatable = false)
