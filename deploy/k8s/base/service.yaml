@@ -1,0 +1,18 @@
+#@ load("values.star", "values")
+#@ load("selectors.lib.yaml", "selectors")
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: #@ values.app_name
+  namespace: #@ values.namespace
+  labels:
+    app: #@ values.app_name
+spec:
+  type: ClusterIP
+  selector: #@ selectors()
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080

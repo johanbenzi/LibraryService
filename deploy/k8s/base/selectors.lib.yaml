@@ -1,0 +1,6 @@
+#@ load("values.star", "values")
+
+#@ def selectors():
+app: #@ values.app_name
+tier: application
+#@ end
