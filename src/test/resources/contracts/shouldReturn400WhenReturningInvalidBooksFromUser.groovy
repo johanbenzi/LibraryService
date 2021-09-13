@@ -13,5 +13,6 @@ Contract.make {
     }
     response {
         status 400
+        body("Invalid entry")
     }
 }

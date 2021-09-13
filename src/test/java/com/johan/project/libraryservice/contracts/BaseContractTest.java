@@ -1,9 +1,8 @@
 package com.johan.project.libraryservice.contracts;
 
-import com.johan.project.libraryservice.exceptions.BookNotFoundException;
-import com.johan.project.libraryservice.exceptions.DuplicateBookException;
-import com.johan.project.libraryservice.exceptions.DuplicateCategoryException;
+import com.johan.project.libraryservice.exceptions.*;
 import com.johan.project.libraryservice.model.request.BookRequest;
+import com.johan.project.libraryservice.model.response.BookResponse;
 import com.johan.project.libraryservice.service.BookService;
 import com.johan.project.libraryservice.service.CategoryService;
 import io.restassured.config.EncoderConfig;
@@ -75,5 +74,12 @@ public class BaseContractTest {
 
         doThrow(new BookNotFoundException("Book doesn't exist"))
                 .when(bookService).deleteBook(2L);
+
+        when(bookService.loanBooks(1L, Set.of(1L))).thenReturn(Set.of(BookResponse.of(1L, "Book 1", "John Doe", Set.of("Travel"))));
+        when(bookService.loanBooks(1L, Set.of(2L))).thenThrow(new RequestedBooksNotAvailableException("Book is not available"));
+
+        doThrow(new BooksNotLoanedByUserException("Invalid entry"))
+                .when(bookService).returnBooks(1L, Set.of(4L));
+
     }
 }

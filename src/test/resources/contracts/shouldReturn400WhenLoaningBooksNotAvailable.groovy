@@ -9,10 +9,10 @@ Contract.make {
             accept(applicationJson())
             contentType(applicationJson())
         }
-        body([4])
+        body([2])
     }
     response {
-        status 404
-        body("Book 4 is not available")
+        status 400
+        body("Book is not available")
     }
 }
