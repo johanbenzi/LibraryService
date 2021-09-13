@@ -1,0 +1,17 @@
+#@data/values
+---
+scale: 1
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "5"
+    memory: "1Gi"
+image:
+  name: null
+  tag: null
+environment: develop
+namespace: develop
+app_name: library-service
+filestores: [ ]

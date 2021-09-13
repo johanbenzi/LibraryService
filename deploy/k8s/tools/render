@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+usage() {
+  echo >&2 "usage: $0 -f FILE ..."
+}
+
+passthrough=()
+files=()
+while [[ $# -ne 0 ]]; do
+  case "$1" in
+    -h|--help)
+    usage
+    exit 0
+    ;;
+    -f|--file)
+    files+=("$2")
+    shift; shift
+    ;;
+    *)
+    passthrough+=("$1")
+    shift
+    ;;
+  esac
+done
+
+IFS=$'\n' all_files=( $("$DIR/get-deps" "${files[@]}") )
+
+args=()
+for file in "${all_files[@]}" ; do
+  args+=(-f "$file")
+done
+
+ytt "${args[@]}" "${passthrough[@]}"

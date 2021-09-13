@@ -1,0 +1,14 @@
+#@ load("values.star", "values")
+
+#@ def app_podspec():
+containers:
+  - name: #@ values.app_name
+    image: #@ "{name}:{tag}".format(**values.image)
+    resources: #@ values.resources
+    env:
+      - name: ENVIRONMENT
+        value: #@ values.environment
+    ports:
+      - name: http
+        containerPort: 8080
+#@ end

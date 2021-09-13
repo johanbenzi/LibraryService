@@ -1,0 +1,19 @@
+#@ load("app-podspec.lib.yaml", "app_podspec")
+#@ load("selectors.lib.yaml", "selectors")
+#@ load("values.star", "values")
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: #@ values.app_name
+  labels: #@ selectors()
+  namespace: #@ values.namespace
+spec:
+  replicas: #@ values.scale
+  selector:
+    matchLabels: #@ selectors()
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels: #@ selectors()
+    spec: #@ app_podspec()
