@@ -27,14 +27,9 @@ Feature: Books can be loaned from and returned to library by users
       | Book B | John Doe | Fiction, Travel |
     Given Books and Authors
       | Title  | Author   |
-      | Book A | John Doe |
-    When The book is attempted to be loaned
-    Then A response code of 409 is obtained
-    Given Books and Authors
-      | Title  | Author   |
       | Book E | Jane Doe |
     When The book is attempted to be loaned
-    Then A response code of 404 is obtained
+    Then A response code of 400 is obtained
     Given Books and Authors
       | Title  | Author   |
       | Book C | John Doe |
@@ -62,9 +57,9 @@ Feature: Books can be loaned from and returned to library by users
       | Title  | Author   |
       | Book A | John Doe |
     When The book is attempted to be returned
-    Then A response code of 200 is obtained
+    Then A response code of 204 is obtained
     Given Books and Authors
       | Title  | Author   |
       | Book D | Jane Doe |
     When The book is attempted to be returned
-    Then A response code of 422 is obtained
+    Then A response code of 400 is obtained

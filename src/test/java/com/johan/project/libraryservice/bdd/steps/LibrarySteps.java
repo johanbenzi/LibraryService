@@ -3,7 +3,6 @@ package com.johan.project.libraryservice.bdd.steps;
 import com.johan.project.libraryservice.bdd.steps.api.LibraryAPISteps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,6 +11,7 @@ import net.thucydides.core.annotations.Steps;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LibrarySteps {
 
@@ -79,32 +79,32 @@ public class LibrarySteps {
     }
 
     @And("Existing Books")
-    public void existingBooks() {
-        throw new PendingException();
+    public void existingBooks(final DataTable books) {
+        steps.existingBooks(books.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @Given("A user with id {int}")
     public void saveUserId(final int userId) {
-        throw new PendingException();
+        steps.saveUserId(userId);
     }
 
     @And("Books and Authors")
     public void saveBooksAndAuthor(final DataTable booksAndAuthors) {
-        throw new PendingException();
+        steps.saveBooksAndAuthor(booksAndAuthors.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @When("The book is attempted to be loaned")
     public void loanBooksFromLibrary() {
-        throw new PendingException();
+        steps.loanBooksFromLibrary();
     }
 
     @And("The books are provided")
     public void assertBooks(final DataTable books) {
-        throw new PendingException();
+        steps.assertBooks(books.cells().stream().skip(1).collect(Collectors.toList()));
     }
 
     @When("The book is attempted to be returned")
     public void returnBooksToLibrary() {
-        throw new PendingException();
+        steps.returnBooksToLibrary();
     }
 }

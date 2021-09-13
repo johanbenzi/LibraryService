@@ -66,4 +66,33 @@ public class LibraryAPISteps {
         commonAPISteps.deleteBookFromLibrary();
     }
 
+    @Step("Add books to database")
+    public void existingBooks(final List<List<String>> books) {
+        commonAPISteps.existingBooks(books);
+    }
+
+    @Step("Add userId to session")
+    public void saveUserId(final int userId) {
+        commonAPISteps.saveUserId(userId);
+    }
+
+    @Step("Add bookId to session")
+    public void saveBooksAndAuthor(final List<List<String>> collect) {
+        commonAPISteps.saveBooksAndAuthor(collect);
+    }
+
+    @Step("Loan books from library")
+    public void loanBooksFromLibrary() {
+        commonAPISteps.loanBooksFromLibrary();
+    }
+
+    @Step("Assert loaned books")
+    public void assertBooks(final List<List<String>> books) {
+        commonAPISteps.assertBooks(books);
+    }
+
+    @Step("Return loaned books")
+    public void returnBooksToLibrary() {
+        commonAPISteps.returnBooksToLibrary();
+    }
 }

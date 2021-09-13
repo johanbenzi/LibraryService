@@ -2,11 +2,14 @@ package com.johan.project.libraryservice.bdd.steps.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.johan.project.libraryservice.LibraryServiceApplication;
+import com.johan.project.libraryservice.model.request.BookRequest;
+import com.johan.project.libraryservice.model.response.BookResponse;
 import com.johan.project.libraryservice.repository.BooksRepository;
 import com.johan.project.libraryservice.repository.CategoriesRepository;
+import com.johan.project.libraryservice.repository.entity.BooksEntity;
 import com.johan.project.libraryservice.repository.entity.CategoriesEntity;
-import com.johan.project.libraryservice.model.request.BookRequest;
 import io.cucumber.java.After;
+import io.restassured.common.mapper.TypeRef;
 import lombok.extern.log4j.Log4j2;
 import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
@@ -18,15 +21,14 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(classes = LibraryServiceApplication.class, webEnvironment = RANDOM_PORT)
@@ -108,6 +110,61 @@ public class CommonAPISteps {
         SerenityRest.given()
                 .when()
                 .delete(libraryServiceUrl + "/library/book/" + Serenity.getCurrentSession().get("ResponseID"));
+    }
+
+    public void existingBooks(final List<List<String>> books) {
+        final Map<String, CategoriesEntity> categoryMap = categoriesRepository.findAll().stream().collect(Collectors.toMap(CategoriesEntity::getCategory, x -> x));
+        final var booksEntities = books.stream().map(x ->
+                BooksEntity.builder().title(x.get(0)).author(x.get(1)).categories(Arrays.stream(x.get(2)
+                        .split("\\s*,\\s*")).map(categoryMap::get).collect(Collectors.toSet())).build()).collect(Collectors.toList());
+
+        booksRepository.saveAllAndFlush(booksEntities);
+    }
+
+    public void saveUserId(final int userId) {
+        Serenity.getCurrentSession().put("UserId", userId);
+    }
+
+    public void saveBooksAndAuthor(final List<List<String>> booksAndAuthors) {
+        final List<Long> bookIds = new ArrayList<>();
+        for (final var book : booksRepository.findAll()) {
+            if (booksAndAuthors.stream().anyMatch(x -> x.get(0).equalsIgnoreCase(book.getTitle()) && x.get(1).equalsIgnoreCase(book.getAuthor()))) {
+                bookIds.add(book.getId());
+            }
+        }
+        Serenity.getCurrentSession().put("BookIds", bookIds);
+    }
+
+    public void loanBooksFromLibrary() {
+        setLibraryServiceUrl();
+        SerenityRest.given()
+                .when()
+                .contentType("application/json")
+                .accept("application/json")
+                .body(Serenity.getCurrentSession().get("BookIds"))
+                .post(libraryServiceUrl + "/library/user/" + Serenity.getCurrentSession().get("UserId") + "/books");
+    }
+
+    public void assertBooks(final List<List<String>> books) {
+        Serenity.getCurrentSession().get("ResponseID");
+        final var bookMap = SerenityRest.then().extract().response().body().as(new TypeRef<List<BookResponse>>() {
+        }).stream().collect(Collectors.toMap(x -> format("%s-%s", x.getTitle(), x.getAuthor()), x -> x));
+
+        books.forEach(b -> {
+            final var key = b.get(0) + "-" + b.get(1);
+            assertTrue(bookMap.containsKey(key));
+            assertTrue(bookMap.get(key).getCategories().containsAll(Arrays.stream(b.get(2).split("\\s*,\\s*")).collect(Collectors.toSet())));
+        });
+    }
+
+    public void returnBooksToLibrary() {
+        setLibraryServiceUrl();
+        SerenityRest.given()
+                .when()
+                .contentType("application/json")
+                .accept("application/json")
+                .body(Serenity.getCurrentSession().get("BookIds"))
+                .patch(libraryServiceUrl + "/library/user/" + Serenity.getCurrentSession().get("UserId") + "/books");
     }
 
     private void setLibraryServiceUrl() {
